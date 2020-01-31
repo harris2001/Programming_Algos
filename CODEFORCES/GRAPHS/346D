@@ -1,50 +1,69 @@
 #include <bits/stdc++.h>
-#define INF 9999999
+#define INF 1999999
 using namespace std;
 
-vector<vector<int> >graph;
-vector<bool>visited;
-vector<int>dp;
+vector<vector<int>> graph(INF, vector<int>());
+vector<bool> visited;
+vector<int> dp;
 
-void dfs(int curr,int stop,int orders){
-    visited[curr]=1;
-    dp[curr]=min(dp[curr],orders);
-    
-    if(curr==stop){
+void dfs(int curr, int stop, int orders)
+{
+    int od = orders;
+    visited[curr] = 1;
+    dp[curr] = min(dp[curr], orders);
+    cout << curr << " " << orders << " " << dp[curr] << endl;
+    if (curr == stop)
+    {
         return;
     }
-    int a=0;
-    for(int i=0; i<graph[curr].size(); i++){
-        if(visited[graph[curr][i]]==0){
+    int a = 0;
+    for (int i = 0; i < graph[curr].size(); i++)
+    {
+        if (visited[graph[curr][i]] == 0 && graph[graph[curr][i]].size() != 0)
+        {
             a++;
         }
-        if(a>1){break;}
+        if (a >= 1)
+        {
+            break;
+        }
     }
-    for(int i=0; i<graph[curr].size(); i++){
-        if(visited[graph[curr][i]]==0){
-            if(a>1){
-                dfs(graph[curr][i],stop,orders+1);
+    for (int i = 0; i < graph[curr].size(); i++)
+    {
+        if (visited[graph[curr][i]] == 0)
+        {
+            if (a >= 1)
+            {
+                dfs(graph[curr][i], stop, od + 1);
             }
-            else{
-                dfs(graph[curr][i],stop,orders);
+            else
+            {
+                dfs(graph[curr][i], stop, od);
             }
         }
     }
 }
 
-int main(){
-    int n,u,v;
-    scanf("%d",&n);
-    graph.assign(0,vector<int>());
-    visited.assign(n,false);
-    dp.assign(n,INF);
-    for(int i=0; i<n; i++){
-        scanf("%d%d",&u,&v);
+int main()
+{
+    int n, e, u, v;
+    scanf("%d%d", &n, &e);
+    //graph.assign(0,vector<int>());
+    visited.assign(n + 1, 0);
+    dp.assign(n + 1, INF);
+    for (int i = 0; i < e; i++)
+    {
+        scanf("%d%d", &u, &v);
         graph[u].push_back(v);
+        //cout<<u<<" "<<v<<" "<<graph[u].back()<<endl;
     }
-    scanf("%d%d",&u,&v);
-    dp[u]=0;
-    dfs(u,v,0);
-    printf("%d\n",dp[v]);
+    scanf("%d%d", &u, &v);
+    dp[u] = 0;
+    dfs(u, v, 0);
+    if (dp[v] == INF)
+    {
+        dp[v] = -1;
+    }
+    printf("%d\n", dp[v]);
     return 0;
 }
