@@ -56,9 +56,17 @@ my dp[N+1]={};
 //cout<<"ok";
 solve(N,dp,N,0);
 
+sort(dp.begin(),dp.end());
+
 long long int ans=9999999999;
-long long int ii,jj;
-for(long long int i=0; i<K; i++){
+long long int min1,min2;
+min1=
+for(int i=0; i<K; i++){
+    if()
+    dp[super[i]].zero
+}
+
+/*for(long long int i=0; i<K; i++){
     for(long long int j=i+1; j<K; j++){
         //cout<<super[i]<<" "<<super[j]<<endl;
         bool bb=false;
@@ -75,7 +83,9 @@ for(long long int i=0; i<K; i++){
             ans=min(abs(dp[super[i]].one-dp[super[j]].one)-1,ans);
         }
     }
-}
+}*/
+long long int ka=0;
+ans=max(ka,ans);
 printf("%lld\n",dp[N].zero-ans);
 
 return 0;
