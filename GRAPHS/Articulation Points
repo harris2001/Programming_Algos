@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector<vector<int> > graph;
+vector<int>timetable;
+vector<bool>visited;
+
+vector<vector<int> >dfs_tree;
+
+void dfs(int N,int timet){
+    visited[N]=1;
+    timetable[N]=timet;
+    for(int i=0; i<graph[N].size(); i++){
+        if(visited[graph[N][i]]==0){
+            dfs_tree[N].push_back(graph[N][i]);
+            dfs_tree[graph[N][i]].push_back(N);
+            dfs(graph[N][i]);
+        }
+    }
+}
+
+void articulation(int N,int timet,int parent){
+    if(timet==0 && dfs_tree[N].size()>1){
+        printf("%d",&N);
+    }
+    else{
+        for(int i=0; i<dfs_tree[N].size(); i++){
+            if()
+        }
+    }
+}
+
+int main(){
+
+int N,E;
+
+scanf("%d%d",&N,&E);
+
+graph.assign(0,vector<int>());
+visited.assign(N,0);
+
+int a,b;
+
+for(int i=0; i<E; i++){
+    scanf("%d%d",&a,&b);
+    graph[a].push_back(b);
+    graph[b].push_back(a);
+}
+    dfs(0);
+    printf("Articulation Points: ");
+    articulation(0,0);
+    
+    return 0;
+}
