@@ -1,70 +1,70 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 
 using namespace std;
 
-vector<vector<pair<int,int> > >road;
+priority_queue< pair< int,pair<int,int> > >pq;
+vector<vector<pair<int,int> > >graph;
 vector<bool>visited;
 int dist[1005][1005];
-priority_queue<pair<int, pair<int,int> > >q;
-int edges = 0;
 
-void mst(int N){
-    while(!q.empty()){
-        pair<int,pair<int,int> >edge = q.top();
-        q.pop();
-        int a,b,w;
-        w = edge.first*-1;
-        a = edge.second.first;
-        b = edge.second.second;
-        //cout<<w<<" "<<a<<" "<<b<<endl;
-        if(edges<N-1&&(visited[a]==0||visited[b]==0)){
-            //cout<<"okey";
-            visited[a]=1;
-            visited[b]=1;
-            edges++;
-            road[a].push_back(make_pair(b,w));
-            road[b].push_back(make_pair(a,w));
-            //printf("Connect: %d with %d and distance: %d\n",a,b,w);
+void mst(){
+        while(!pq.empty()){
+                pair <int, pair <int,int> >pp = pq.top();
+                pq.pop();
+                int w = pp.first * -1;
+                int a = pp.second.first;
+                int b = pp.second.second;
+                if(visited[a] == 0|| visited[b] == 0){
+                        graph[a].push_back(make_pair(b,w));
+                        graph[b].push_back(make_pair(a,w));
+                        visited[a] = visited[b] = 1;
+                        //cout<<a<<" "<<b<<" "<<w<<endl;
+                }
         }
-    }
 }
 
-void dfs(int node,int cost,int root,int pre){
-    for(int i=0; i<road[node].size(); i++){
-        if(road[node][i].first!=pre){
-            int next = road[node][i].first;
-            int cc=cost+road[node][i].second;
-            //cout<<root<<" "<<next<<" "<<cc<<endl;
-            dist[root][next]=cc;
-            //printf("Root: %d to Node: %d, distance: %d\n",root,next,dist[root][next]);
-            dfs(next,cc,root,node);
+void bfs(int node,int prev,int cost,int root){
+        queue< pair< int, int > > q;
+        dist[root][node]=cost;
+        //cout<<"DIST: "<<root<<" "<<node<<": "<<cost<<endl;
+        for(int i=0; i<graph[node].size(); i++){
+                if(graph[node][i].first != prev)
+                        q.push(graph[node][i]);
         }
-    }
+        while(!q.empty()){
+                int next = q.front().first;
+                int w = q.front().second;
+                q.pop();
+                if(next!=node)
+                        bfs(next,node,cost+w,root);
+        }
 }
 
 int main(){
-    int N,M,Q;
-    
-    scanf("%d%d%d",&N,&M,&Q);
-    
-    road.assign(N+1,vector<pair<int,int> >());
-    visited.assign(N+1,0);
 
-    int a,b,w;
-    
-    for(int i=0; i<M; i++){
+int N,M,Q;
+
+scanf("%d%d%d",&N,&M,&Q);
+
+graph.assign (N+1 , vector<pair<int, int> >());
+visited.assign (N+1 , 0);
+
+int a,b,w;
+
+for(int i=0; i<M; i++){
         scanf("%d%d%d",&a,&b,&w);
-        q.push(make_pair(-1*w,make_pair(a,b)));
-    }
-    mst(N);
-    for(int i=1; i<=N; i++){
-        dfs(i,0,i,-1);
-    }
-    
-    for(int i=0; i<Q; i++){
+        pq.push (make_pair (-1*w , make_pair(a,b)));
+}
+mst();
+
+for(int i=1; i<=N; i++){
+        bfs(i,-1,0,i);
+}
+
+for(int i=0; i<Q; i++){
         scanf("%d%d",&a,&b);
         printf("%d\n",dist[a][b]);
-    }
-    
-    return 0;
+}
+
+        return 0;
 }
