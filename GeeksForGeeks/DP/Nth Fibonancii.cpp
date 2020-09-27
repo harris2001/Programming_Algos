@@ -1,4 +1,5 @@
 #include <iostream>
+#define mod 1000000007
 using namespace std;
 
 long long int table[10000];
@@ -11,12 +12,12 @@ long long int fib(int N){
     }
     long long int ans=0;
     if(table[N-1]==0){
-        fib(N-1)%1000000007;
+        fib(N-1)%mod;
     }
     if(table[N-2]==0){
-        fib(N-2)%1000000007;
+        fib(N-2)%mod;
     }
-    table[N] = (table[N-1]+table[N-2])%1000000007;
+    table[N] = (table[N-1]+table[N-2])%mod;
 
     return table[N];
 }
