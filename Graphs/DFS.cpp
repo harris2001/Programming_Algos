@@ -2,15 +2,18 @@
 #include<vector>
 #include<algorithm>
 #include<list>
+
 using namespace std;
+
 vector<int> row;
 vector< vector<int> > lista(1000, row);
 vector<int> path;
 list<int>l;
 bool v[1000];
-void dfs(int start,int telos,int k){
+
+void dfs(int start,int stop,int k){
     path.push_back(start);
-    if(start==telos){
+    if(start==stop){
         if(path.size()==k-2){
         while(path.size()>0){
             l.push_back(path.back());
@@ -28,7 +31,7 @@ void dfs(int start,int telos,int k){
     v[start]=true;
     for(int i=0; i<lista[start].size(); i++){
         if(v[lista[start][i]]==false){
-            dfs(lista[start][i],telos,k);
+            dfs(lista[start][i],stop,k);
         }
     }
     path.pop_back();

@@ -61,11 +61,6 @@ int main(){
         else{
             cout<<"NO"<<endl;
         }
-        /*cout<<"________________"<<endl;
-        for(int jj=0; jj<v; jj++){
-            cout<<dist[jj]<<endl;
-        }
-        cout<<"_________________\n";*/
     }
 
 
